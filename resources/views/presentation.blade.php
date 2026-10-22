@@ -338,80 +338,6 @@
             }
         }
 
-        /* Gallery — staggered brick rows matching XD */
-        .gc-gallery {
-            padding: 64px 0 80px;
-            overflow: hidden;
-        }
-
-        .gc-gallery__title {
-            margin: 0;
-            text-align: center;
-            color: var(--gc-navy) !important;
-            font-size: clamp(36px, 3.5vw, 45px);
-            font-weight: 700;
-        }
-
-        .gc-gallery__rule {
-            width: 96px;
-            height: 1px;
-            margin: 14px auto 0;
-            background: #e5e5e5;
-        }
-
-        .gc-gallery__rows {
-            --gc-gap: 14px;
-            /* half-tile stagger so row 2 starts under the center of row 1's first image */
-            --gc-shift: calc((100% - (3 * var(--gc-gap))) / 9);
-            margin-top: 48px;
-            display: flex;
-            flex-direction: column;
-            gap: var(--gc-gap);
-        }
-
-        .gc-gallery__row {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: var(--gc-gap);
-            width: calc(100% - var(--gc-shift));
-            max-width: 100%;
-        }
-
-        .gc-gallery__row--offset-end {
-            margin-left: 0;
-            margin-right: auto;
-        }
-
-        .gc-gallery__row--offset-start {
-            margin-left: var(--gc-shift);
-            margin-right: 0;
-        }
-
-        .gc-gallery__row img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            display: block;
-        }
-
-        @media (max-width: 767px) {
-            .gc-gallery__rows {
-                --gc-gap: 10px;
-                --gc-shift: 0px;
-            }
-
-            .gc-gallery__row {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                width: 100%;
-            }
-
-            .gc-gallery__row--offset-end,
-            .gc-gallery__row--offset-start {
-                margin: 0;
-            }
-        }
-
         /* CTA */
         .gc-cta {
             position: relative;
@@ -531,33 +457,6 @@
                 @endforeach
             </div>
         </div>
-
-        <section class="gc-gallery">
-            <div class="gc-shell">
-                <h2 class="gc-gallery__title">{{ $site->gallery_title }}</h2>
-                <div class="gc-gallery__rule"></div>
-                <div class="gc-gallery__rows">
-                    @php
-                        $rowOne = $gallery->get(1, collect());
-                        $rowTwo = $gallery->get(2, collect());
-                        // Fall back to a mirrored row if row 2 is empty.
-                        if ($rowTwo->isEmpty() && $rowOne->isNotEmpty()) {
-                            $rowTwo = $rowOne->reverse()->values();
-                        }
-                    @endphp
-                    <div class="gc-gallery__row gc-gallery__row--offset-end">
-                        @foreach($rowOne as $image)
-                            <img src="{{ \App\Support\Media::url($image->image) }}" alt="{{ $image->alt }}">
-                        @endforeach
-                    </div>
-                    <div class="gc-gallery__row gc-gallery__row--offset-start">
-                        @foreach($rowTwo as $image)
-                            <img src="{{ \App\Support\Media::url($image->image) }}" alt="{{ $image->alt }}">
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section class="gc-cta">
             <div class="gc-cta__mark" aria-hidden="true">
